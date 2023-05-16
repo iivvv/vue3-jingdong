@@ -7,7 +7,10 @@ export const useCommonCartEffect = (shopId) => {
   const cartList = store.state.cartList
   const changeCartItemInfo = (shopId, productId, productInfo, num) => {
     store.commit('changeCartItemInfo', {
-      shopId, productId, productInfo, num
+      shopId,
+      productId,
+      productInfo,
+      num
     })
     // console.log(11111)
   }
@@ -46,7 +49,7 @@ export const useCommonCartEffect = (shopId) => {
       for (const i in productList) {
         const product = productList[i]
         if (product.check) {
-          count += (product.count * product.price)
+          count += product.count * product.price
         }
       }
     }
@@ -65,5 +68,18 @@ export const useCommonCartEffect = (shopId) => {
     }
     return all
   })
-  return { total, price, allChecked, cartList, changeCartItemInfo, productList, shopName }
+  // const totalCount = store.state.cartList[shopId].totalCount ?? 111
+
+  const totalCount = 111
+
+  return {
+    totalCount,
+    total,
+    price,
+    allChecked,
+    cartList,
+    changeCartItemInfo,
+    productList,
+    shopName
+  }
 }

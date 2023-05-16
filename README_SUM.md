@@ -956,6 +956,32 @@ v-if控制数量为0的商品不显示时，不显示的元素的margin依然占
 
 ## 不同设备适配
 
+真机调试：
+
+lineheight影响光标高度 可以用margintop代替一部分
+
+iconfont加减更新
+
+
+
+浏览器自动适配：
+
+把px都改成rem
+
+
+
+移动设备适配：
+
+在indexhtml里用es5计算一下尺寸和fontsize
+
+
+
+前端代码上线：
+
+写vue.config.js，module export 设置path
+
+npm run build 得到dist文件夹
+
 #### 1 采用rem单位
 
 ```css
@@ -1069,5 +1095,4 @@ https://www.iconfont.cn/
 ##### 文本对比
 
 http://www.jsons.cn/txtdiff/
-
 

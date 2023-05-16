@@ -28,6 +28,7 @@ export default createStore({
     // cartList: {
     //   shopId: {
     //     shopName: '',
+    //     totalCount:0,//计件
     //     productList: {
     //       productId: {
     //         //     _id: '1',
@@ -54,7 +55,7 @@ export default createStore({
   },
   getters: {},
   mutations: {
-    changeCartItemInfo (state, payload) {
+    changeCartItemInfo(state, payload) {
       const { shopId, productId, productInfo, num } = payload
       const shopInfo = state.cartList[shopId] || {
         shopName: '',
@@ -74,29 +75,54 @@ export default createStore({
       }
       shopInfo.productList[productId] = product
       state.cartList[shopId] = shopInfo
+
+      // 计算数量
+      const products = state.cartList[shopId].productList
+      let totalCount = 0
+      if (products) {
+        for (const i in products) {
+          const product = products[i]
+          totalCount += product.count
+        }
+      }
+      // console.log(totalCount)
+      state.cartList[shopId].totalCount = totalCount
+      // state.cartList[shopId].totalCount = 111
+      // console.log(state.cartList[shopId].totalCount)
       setLocalCartList(state)
     },
-    changeShopName (state, payload) {
+    changeShopName(state, payload) {
       const { shopId, shopName } = payload
       const shopInfo = state.cartList[shopId] || {
-        shopName: '', productList: {}
+        shopName: '',
+        productList: {}
       }
       shopInfo.shopName = shopName
       state.cartList[shopId] = shopInfo
       setLocalCartList(state)
     },
-    changeCartItemChecked (state, payload) {
+    changeTotalCount(state, payload) {
+      const { shopId, shopName } = payload
+      const shopInfo = state.cartList[shopId] || {
+        shopName: '',
+        productList: {}
+      }
+      shopInfo.shopName = shopName
+      state.cartList[shopId] = shopInfo
+      setLocalCartList(state)
+    },
+    changeCartItemChecked(state, payload) {
       const { shopId, productId } = payload
       const product = state.cartList[shopId].productList[productId]
       product.check = !product.check
       setLocalCartList(state)
     },
-    cleanCartProducts (state, payload) {
+    cleanCartProducts(state, payload) {
       const { shopId } = payload
       state.cartList[shopId].productList = {}
       setLocalCartList(state)
     },
-    setCartItemsChecked (state, payload) {
+    setCartItemsChecked(state, payload) {
       const { shopId, allChecked } = payload // 为什么传过来的参数allChecked是 undefined
       const products = state.cartList[shopId].productList
 
@@ -118,10 +144,9 @@ export default createStore({
       }
       setLocalCartList(state)
     },
-    clearCartData (state, shopId) {
+    clearCartData(state, shopId) {
       state.cartList[shopId].productList = {}
     }
-
   },
   actions: {},
   modules: {}
